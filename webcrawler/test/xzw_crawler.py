@@ -155,3 +155,4 @@ if __name__ == '__main__':
     for child_url in child_urls:
         get_info(child_url)
         print("\n")
+    input()
