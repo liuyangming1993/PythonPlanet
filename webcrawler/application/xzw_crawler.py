@@ -124,7 +124,7 @@ def get_info(key):
     req = urllib.request.Request(key, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
     content_str = resp.read()
-    content_str = content_str.decode('utf-8')  # 解码
+    content_str = content_str.decode('utf-8', "ignore")  # 解码
     # 使用BeautifulSoup
     soup_content = BeautifulSoup(content_str, 'html.parser')
     # 获取运势级别、指数、颜色和速配星座（内容简介）
@@ -145,7 +145,8 @@ def open_chrome():
 
 if __name__ == '__main__':
     open_chrome()
-    print(now_str)
+    print("星座运势（" + now_str + "）")
+    print("您要的" + now_str + "的星座运势解读！请注意查收！")
     print(
         "![](https://mmbiz.qpic.cn/sz_mmbiz_jpg/DnuRxKrYr5dkYfXVJLUONibqyDCgtt7utepmHHqbebSOafgkrsHQKLt4e5zJDiatXUxagdmS49KbeNKWos8eKbwA/0?wx_fmt=jpeg)")
     get_menu()
