@@ -9,9 +9,6 @@ __author__ = 'Liu Yangming'
 from bs4 import BeautifulSoup
 import urllib.request
 from utils import re_util
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
 import datetime
 import webbrowser
 
