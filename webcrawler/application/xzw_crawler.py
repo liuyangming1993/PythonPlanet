@@ -2,7 +2,6 @@
 # coding:utf-8
 
 """实战：爬星座运势"""
-from selenium.webdriver import ActionChains
 
 __author__ = 'Liu Yangming'
 
@@ -27,6 +26,9 @@ now_date = datetime.datetime.now().strftime('%m-%d')
 now_str = str.replace(str.replace(now_date, "-", "月") + "日", "0", "")
 # 存储详情页面地址和星座信息
 child_urls = {}
+# 多渠道
+is_for_jianshu = True
+# is_for_jianshu = False
 
 
 def get_menu():
@@ -88,8 +90,12 @@ def get_simple_info(soup_content):
 
 # 获得内容简介
 def get_description(soup_content):
-    prefix = "</br>**"
-    suffix = "**</br>"
+    if is_for_jianshu:
+        prefix = "**"
+        suffix = "**"
+    else:
+        prefix = "</br>**"
+        suffix = "**</br>"
     div = soup_content.find(name='div', attrs={'class': 'c_cont'})
     zh_label = "综合运势"
     span = div.find(text=zh_label).parent.next_sibling
@@ -141,6 +147,7 @@ def open_chrome():
     webbrowser.get('chrome').open("https://mp.weixin.qq.com/cgi-bin/home?t=home/index&token=1475258708&lang=zh_CN",
                                   new=0, autoraise=True)
     webbrowser.get('chrome').open("http://blog.didispace.com/tools/online-markdown/", new=0, autoraise=True)
+    webbrowser.get('chrome').open("https://www.jianshu.com/writer#/notebooks/42640270/notes/60195937", new=0, autoraise=True)
 
 
 if __name__ == '__main__':
@@ -153,4 +160,4 @@ if __name__ == '__main__':
     for child_url in child_urls:
         get_info(child_url)
         print("\n")
-    input()
+    print("###想获取每日的星座运势，一定要关注我哦~")
