@@ -145,7 +145,7 @@ def open_chrome():
     webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
     # 这里的'chrome'可以用其它任意名字，如chrome111，这里将想打开的浏览器保存到'chrome'
     if is_for_jianshu:
-        webbrowser.get('chrome').open("https://www.jianshu.com/writer#/notebooks/42640270/notes/60195937", new=0,
+        webbrowser.get('chrome').open("https://www.jianshu.com/writer#/notebooks/42686948/notes/60255342", new=0,
                                       autoraise=True)
     else:
         webbrowser.get('chrome').open("https://mp.weixin.qq.com/cgi-bin/home?t=home/index&token=1475258708&lang=zh_CN",
