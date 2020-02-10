@@ -21,13 +21,12 @@ headers = {
 base_url = "https://www.xzw.com"
 # 首页地址
 index_url = base_url + "/fortune/"
-# 日期
-now_date = datetime.datetime.now().strftime('%m-%d')
-now_str = str.replace(str.replace(now_date, "-", "月") + "日", "0", "")
 # 存储详情页面地址和星座信息
 child_urls = {}
 # 多渠道
 is_for_jianshu = True
+
+
 # is_for_jianshu = False
 
 
@@ -153,10 +152,19 @@ def open_chrome():
         webbrowser.get('chrome').open("http://blog.didispace.com/tools/online-markdown/", new=0, autoraise=True)
 
 
-if __name__ == '__main__':
-    open_chrome()
+def print_date():
+    # 日期
+    now_date = datetime.datetime.now().strftime('%m-%d')
+    now = str.split(now_date, "-")
+    month = int(now[0])
+    day = int(now[1])
+    now_str = str(month) + "月" + str(day) + "日"
     print("星座运势（" + now_str + "）")
     print("您要的" + now_str + "的星座运势解读！请注意查收！")
+
+
+if __name__ == '__main__':
+    open_chrome()
     print(
         "![](https://mmbiz.qpic.cn/sz_mmbiz_jpg/DnuRxKrYr5dkYfXVJLUONibqyDCgtt7utepmHHqbebSOafgkrsHQKLt4e5zJDiatXUxagdmS49KbeNKWos8eKbwA/0?wx_fmt=jpeg)")
     get_menu()
@@ -164,3 +172,4 @@ if __name__ == '__main__':
         get_info(child_url)
         print("\n")
     print("###想获取每日的星座运势，一定要关注我哦~")
+    print_date()
