@@ -23,11 +23,18 @@ base_url = "https://www.xzw.com"
 index_url = base_url + "/fortune/"
 # 存储详情页面地址和星座信息
 child_urls = {}
+# 今日、明日、本周、本月、今年、爱情
+# end = ""
+end = "/1.html"
+# end = "/2.html"
+# end = "/3.html"
+# end = "/4.html"
+# end = "/5.html"
 # 多渠道
-is_for_jianshu = True
-
-
-# is_for_jianshu = False
+WECHAT = "wechat"
+JIAN_SHU = "jian_shu"
+TOU_TIAO = "tou_tiao"
+channel = WECHAT
 
 
 def get_menu():
@@ -54,19 +61,23 @@ def get_simple_info(soup_content):
     zh_label = "综合运势："
     zh = soup_content.find(text=zh_label).parent
     span_zh = zh.next_sibling
-    print(zh_label + "★" * int(re_util.get_first_number(str(span_zh)) / single_star_width))
+    star_num = int(re_util.get_first_number(str(span_zh)) / single_star_width)
+    print(zh_label + "★" * star_num + "☆" * (5 - star_num))
     aq_label = "爱情运势："
     aq = soup_content.find(text=aq_label).parent
     span_aq = aq.next_sibling
-    print(aq_label + "★" * int(re_util.get_first_number(str(span_aq)) / single_star_width))
+    star_num = int(re_util.get_first_number(str(span_aq)) / single_star_width)
+    print(aq_label + "★" * star_num + "☆" * (5 - star_num))
     syxy_label = "事业学业："
     syxy = soup_content.find(text=syxy_label).parent
     span_syxy = syxy.next_sibling
-    print(syxy_label + "★" * int(re_util.get_first_number(str(span_syxy)) / single_star_width))
+    star_num = int(re_util.get_first_number(str(span_syxy)) / single_star_width)
+    print(syxy_label + "★" * star_num + "☆" * (5 - star_num))
     cf_label = "财富运势："
     cf = soup_content.find(text=cf_label).parent
     span_cf = cf.next_sibling
-    print(cf_label + "★" * int(re_util.get_first_number(str(span_cf)) / single_star_width))
+    star_num = int(re_util.get_first_number(str(span_cf)) / single_star_width)
+    print(cf_label + "★" * star_num + "☆" * (5 - star_num))
     jkzs_label = "健康指数："
     jkzs_value = soup_content.find(text=jkzs_label).parent.parent.text
     print(jkzs_value)
@@ -89,12 +100,16 @@ def get_simple_info(soup_content):
 
 # 获得内容简介
 def get_description(soup_content):
-    if is_for_jianshu:
+    prefix = ""
+    suffix = ""
+    if JIAN_SHU == channel:
         prefix = "**"
         suffix = "**"
-    else:
+    elif WECHAT == channel:
         prefix = "</br>**"
         suffix = "**</br>"
+    else:
+        pass
     div = soup_content.find(name='div', attrs={'class': 'c_cont'})
     zh_label = "综合运势"
     span = div.find(text=zh_label).parent.next_sibling
@@ -126,7 +141,7 @@ def get_description(soup_content):
 def get_info(key):
     # 获取星座名和日期
     get_name_xz(key)
-    req = urllib.request.Request(key, headers=headers)
+    req = urllib.request.Request(key + end, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
     content_str = resp.read()
     content_str = content_str.decode('utf-8', "ignore")  # 解码
@@ -143,13 +158,20 @@ def open_chrome():
     chrome_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe'
     webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
     # 这里的'chrome'可以用其它任意名字，如chrome111，这里将想打开的浏览器保存到'chrome'
-    if is_for_jianshu:
+    # 头条
+    webbrowser.get('chrome').open("https://mp.toutiao.com/profile_v3/index", new=0,
+                                  autoraise=True)
+    if JIAN_SHU == channel:
+        # 简书
         webbrowser.get('chrome').open("https://www.jianshu.com/writer#/notebooks/42686948/notes/60255342", new=0,
                                       autoraise=True)
-    else:
+    elif WECHAT == channel:
+        # 公众号
         webbrowser.get('chrome').open("https://mp.weixin.qq.com/cgi-bin/home?t=home/index&token=1475258708&lang=zh_CN",
                                       new=0, autoraise=True)
         webbrowser.get('chrome').open("http://blog.didispace.com/tools/online-markdown/", new=0, autoraise=True)
+    else:
+        pass
 
 
 def print_date():
@@ -165,11 +187,15 @@ def print_date():
 
 if __name__ == '__main__':
     open_chrome()
-    print(
-        "![](https://mmbiz.qpic.cn/sz_mmbiz_jpg/DnuRxKrYr5dkYfXVJLUONibqyDCgtt7utepmHHqbebSOafgkrsHQKLt4e5zJDiatXUxagdmS49KbeNKWos8eKbwA/0?wx_fmt=jpeg)")
+    print("###想获取每日的星座运势，一定要关注我哦~")
+    if JIAN_SHU == channel:
+        print(
+            "![](https://upload-images.jianshu.io/upload_images/21255456-c177b29de2637a7d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)")
+    else:
+        print(
+            "![](https://mmbiz.qpic.cn/sz_mmbiz_jpg/DnuRxKrYr5dkYfXVJLUONibqyDCgtt7utepmHHqbebSOafgkrsHQKLt4e5zJDiatXUxagdmS49KbeNKWos8eKbwA/0?wx_fmt=jpeg)")
     get_menu()
     for child_url in child_urls:
         get_info(child_url)
         print("\n")
-    print("###想获取每日的星座运势，一定要关注我哦~")
     print_date()
