@@ -146,16 +146,16 @@ def print_log():
 
 
 # 获取分类内容列表
-def get_category_content_list(category_bean):
-    name = category_bean.c_name
-    for child_url in category_bean.c_child_list:
-        soup_content = get_soup_content(child_url)
-        div_group = soup_content.findAll('div', {'class': 'group'})
-        for div in div_group:
-            for beauty in beauty_list:
-                if name == beauty.name:
-                    beauty.beauty_list.append(BeautyBean(name, div.a.img['alt'], div.a.img['src'], '', []))
-                    break
+# def get_category_content_list(category_bean):
+#     name = category_bean.c_name
+#     for child_url in category_bean.c_child_list:
+#         soup_content = get_soup_content(child_url)
+#         div_group = soup_content.findAll('div', {'class': 'group'})
+#         for div in div_group:
+#             for beauty in beauty_list:
+#                 if name == beauty.name:
+#                     beauty.beauty_list.append(BeautyBean(name, div.a.img['alt'], div.a.img['src'], '', []))
+#                     break
 
 
 def build_response():
