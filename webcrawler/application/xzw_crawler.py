@@ -34,7 +34,7 @@ end = "/1.html"
 WECHAT = "wechat"
 JIAN_SHU = "jian_shu"
 TOU_TIAO = "tou_tiao"
-channel = WECHAT
+channel = JIAN_SHU
 
 
 def get_menu():
@@ -155,7 +155,7 @@ def get_info(key):
 
 # 打开浏览器
 def open_chrome():
-    chrome_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe'
+    chrome_path = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
     webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
     # 这里的'chrome'可以用其它任意名字，如chrome111，这里将想打开的浏览器保存到'chrome'
     # 头条
