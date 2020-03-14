@@ -8,9 +8,8 @@ __author__ = 'Liu Yangming'
 from bs4 import BeautifulSoup
 import urllib.request
 import gzip
-import json
 
-from webcrawler.application.beaty_checker.beauty_bean import BeautyBean
+from webcrawler.application.beaty_checker.beauty_bean import Response, Content, Category
 from webcrawler.application.beaty_checker.category_bean import CategoryBean
 
 headers = {
@@ -98,7 +97,6 @@ def get_album_list():
             div_group = soup_content.findAll('div', {'class': 'group'})
             for div in div_group:
                 child_page.c_child_list.append(CategoryBean(base_url + div.a['href'], []))
-    pass
 
 
 # 获取专辑的所有子页面（包含首页）
@@ -117,7 +115,6 @@ def get_album_list_child_pages():
                     if 'class' in str(child):
                         continue
                     album_child_page.c_child_list.append(CategoryBean(base_url + child['href'], []))
-    pass
 
 
 def get_img_list():
@@ -130,25 +127,6 @@ def get_img_list():
                     for li in li_list:
                         if 'img' in str(li):
                             img.c_child_list.append(li.img['src'])
-
-
-def build_beauty_list():
-    for category in category_list:
-        beauty_list.append(
-            BeautyBean('', category.c_name, '', '', []))
-
-
-# 获取分类内容列表
-def get_category_content_list(category_bean):
-    name = category_bean.c_name
-    for child_url in category_bean.c_child_list:
-        soup_content = get_soup_content(child_url)
-        div_group = soup_content.findAll('div', {'class': 'group'})
-        for div in div_group:
-            for beauty in beauty_list:
-                if name == beauty.name:
-                    beauty.beauty_list.append(BeautyBean(name, div.a.img['alt'], div.a.img['src'], '', []))
-                    break
 
 
 def print_log():
@@ -167,6 +145,38 @@ def print_log():
                         print(img_src + "----------------------------------专辑的子页面上的图片")
 
 
+# 获取分类内容列表
+def get_category_content_list(category_bean):
+    name = category_bean.c_name
+    for child_url in category_bean.c_child_list:
+        soup_content = get_soup_content(child_url)
+        div_group = soup_content.findAll('div', {'class': 'group'})
+        for div in div_group:
+            for beauty in beauty_list:
+                if name == beauty.name:
+                    beauty.beauty_list.append(BeautyBean(name, div.a.img['alt'], div.a.img['src'], '', []))
+                    break
+
+
+def build_response():
+    content = Content(1, [])
+    Response(0, content)
+    for category in category_list:
+        # 分类
+        c_category = Category(category.c_name, [])
+        content.category_list.append(c_category)
+        for child_page in category.c_child_list:
+
+            print(child_page.c_name + "----------------------------------类别下的子页面")
+    #         for album_child_page in child_page.c_child_list:
+    #             # 子页面中的专辑首页
+    #             print(album_child_page.c_name + "----------------------------------子页面上的专辑首页")
+    #             for img in album_child_page.c_child_list:
+    #                 print(img.c_name + "----------------------------------专辑的子页面")
+    #                 for img_src in img.c_child_list:
+    #                     print(img_src + "----------------------------------专辑的子页面上的图片")
+
+
 if __name__ == "__main__":
     get_category_list()
     get_category_list_child_pages()
@@ -174,4 +184,4 @@ if __name__ == "__main__":
     get_album_list_child_pages()
     get_img_list()
     print_log()
-    # build_beauty_list()
+    # build_response()
