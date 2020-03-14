@@ -32,6 +32,12 @@ beauty_list = []
 
 # 根据url获取相应的soup_content
 def get_soup_content(url):
+    # 添加代理
+    # proxy = {'http': '113.194.31.123:9999'}
+    # handler = urllib.request.ProxyHandler(proxy)
+    # opener = urllib.request.build_opener(handler)
+    # urllib.request.install_opener(opener)
+    # 添加代理end
     req = urllib.request.Request(url, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
     # gzip解压缩
@@ -86,7 +92,7 @@ def get_category_list_child_pages():
 # 获取专辑列表
 def get_album_list():
     for category in category_list:
-        for child_page in category.c_child_list[:2]:
+        for child_page in category.c_child_list:
             child_page_url = child_page.c_name
             soup_content = get_soup_content(child_page_url)
             div_group = soup_content.findAll('div', {'class': 'group'})
@@ -95,43 +101,28 @@ def get_album_list():
     pass
 
 
-# 获取专辑的子页面
+# 获取专辑的所有子页面（包含首页）
 def get_album_list_child_pages():
     for category in category_list:
-        for child_page in category.c_child_list[:2]:
-            for album_child_page in child_page.c_child_list[:2]:
+        for child_page in category.c_child_list:
+            for album_child_page in child_page.c_child_list:
                 first_page = album_child_page.c_name
-                str_split = str.split(first_page, '-')
-                # 获取页码之前的url，用于后面的拼装
-                common_url = str.replace(first_page, str_split[-1], "")
                 soup_content = get_soup_content(first_page)
+                # 专辑首页放入到列表中
+                album_child_page.c_child_list.append(CategoryBean(first_page, []))
                 div_pg = soup_content.find('div', {'class': 'pg'})
                 if div_pg is None:
                     continue
                 for child in div_pg.children:
                     if 'class' in str(child):
-                        if 'last' in str(child):
-                            # 可以根据页码获取所有地址，所以清除之前已经保存的地址
-                            album_child_page.c_child_list.clear()
-                            # 获取页码数
-                            page_count = int(str.replace(child.text, '...', ''))
-                            for i in range(1, page_count + 1):
-                                album_child_page.c_child_list.append(CategoryBean(common_url + str(i) + '.html', []))
-                            break
                         continue
                     album_child_page.c_child_list.append(CategoryBean(base_url + child['href'], []))
     pass
 
 
 def get_img_list():
-    # soup_content = get_soup_content("https://www.lesmao.co/thread-15621-2-1.html")
-    # print(soup_content)
-    # li_list = soup_content.findAll('li')
-    # for li in li_list:
-    #     if 'img' in str(li):
-    #         print(li.img['src'])
     for category in category_list:
-        for child_page in category.c_child_list[:2]:
+        for child_page in category.c_child_list:
             for album_child_page in child_page.c_child_list:
                 for img in album_child_page.c_child_list:
                     soup_content = get_soup_content(img.c_name)
@@ -158,27 +149,22 @@ def get_category_content_list(category_bean):
                 if name == beauty.name:
                     beauty.beauty_list.append(BeautyBean(name, div.a.img['alt'], div.a.img['src'], '', []))
                     break
-    pass
 
 
 def print_log():
     for category in category_list:
         # 分类
-        print(category.c_name+"----------------------------------1")
-        for child_page in category.c_child_list[:2]:
+        print(category.c_name + "----------------------------------类别")
+        for child_page in category.c_child_list:
             # 分类下的所有子页面
-            print(child_page.c_name + "----------------------------------2")
+            print(child_page.c_name + "----------------------------------类别下的子页面")
             for album_child_page in child_page.c_child_list:
-                # 子页面中的album的第一页
-                print(album_child_page.c_name + "----------------------------------3")
+                # 子页面中的专辑首页
+                print(album_child_page.c_name + "----------------------------------子页面上的专辑首页")
                 for img in album_child_page.c_child_list:
-                    print(img.c_name + "----------------------------------4")
-                    soup_content = get_soup_content(img.c_name)
-                    li_list = soup_content.findAll('li')
-                    for li in li_list:
-                        if 'img' in str(li):
-                            img.c_child_list.append(li.img['src'])
-    pass
+                    print(img.c_name + "----------------------------------专辑的子页面")
+                    for img_src in img.c_child_list:
+                        print(img_src + "----------------------------------专辑的子页面上的图片")
 
 
 if __name__ == "__main__":
