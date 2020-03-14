@@ -18,7 +18,7 @@ headers = {
     'Accept-Language': 'zh-CN,zh;q=0.9',
     'Cache-Control': 'max-age=0',
     'Connection': 'keep-alive',
-    'Cookie': 'pjr5_2132_saltkey=Br1jq1jq; pjr5_2132_lastvisit=1583924239; pjr5_2132_sid=mgOEHO; pjr5_2132_sendmail=1; Hm_lvt_6a60b923391636750bd84d6047523609=1583927842; pjr5_2132_lastact=1583927920%09plugin.php%09; Hm_lpvt_6a60b923391636750bd84d6047523609=1583927922',
+    # 'Cookie': 'pjr5_2132_saltkey=Br1jq1jq; pjr5_2132_lastvisit=1583924239; pjr5_2132_sid=mgOEHO; pjr5_2132_sendmail=1; Hm_lvt_6a60b923391636750bd84d6047523609=1583927842; pjr5_2132_lastact=1583927920%09plugin.php%09; Hm_lpvt_6a60b923391636750bd84d6047523609=1583927922',
     'Upgrade-Insecure-Requests': '1',
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
 }
