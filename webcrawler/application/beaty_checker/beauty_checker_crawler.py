@@ -25,6 +25,7 @@ headers = {
 }
 index_url = "https://www.lesmao.co/"
 base_url = "https://www.lesmao.co/"
+json_file = "data.json"
 # 存储分类页面地址和分类信息
 category_list = []
 beauty_list = []
@@ -149,6 +150,13 @@ def print_log():
                         print(img_src + "----------------------------------专辑的子页面上的图片")
 
 
+def output_file(s):
+    with open(json_file, 'w') as f:
+        # 清空文本内容
+        f.truncate()
+        f.write(s)
+
+
 def build_response():
     response = {'code': 0, 'content': []}
     for category in category_list:
@@ -174,13 +182,15 @@ def build_response():
                         album_bean['imgList'].append(img_src)
                         # print(img_src + "----------------------------------专辑的子页面上的图片")
     print(json.dumps(response))
+    output_file(json.dumps(response))
 
 
 if __name__ == "__main__":
-    get_category_list()
-    get_category_list_child_pages()
-    get_album_list()
-    get_album_list_child_pages()
-    get_img_list()
+    # get_category_list()
+    # get_category_list_child_pages()
+    # get_album_list()
+    # get_album_list_child_pages()
+    # get_img_list()
+    # build_response()
+    output_file("sssssss")
     # print_log()
-    build_response()
