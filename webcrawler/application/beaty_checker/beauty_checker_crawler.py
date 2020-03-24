@@ -186,11 +186,10 @@ def build_response():
 
 
 if __name__ == "__main__":
-    # get_category_list()
-    # get_category_list_child_pages()
-    # get_album_list()
-    # get_album_list_child_pages()
-    # get_img_list()
-    # build_response()
-    output_file("sssssss")
+    get_category_list()
+    get_category_list_child_pages()
+    get_album_list()
+    get_album_list_child_pages()
+    get_img_list()
+    build_response()
     # print_log()
