@@ -19,9 +19,12 @@ headers = {
     'Accept-Language': 'zh-CN,zh;q=0.9',
     'Cache-Control': 'max-age=0',
     'Connection': 'keep-alive',
-    # 'Cookie': 'pjr5_2132_saltkey=Br1jq1jq; pjr5_2132_lastvisit=1583924239; pjr5_2132_sid=mgOEHO; pjr5_2132_sendmail=1; Hm_lvt_6a60b923391636750bd84d6047523609=1583927842; pjr5_2132_lastact=1583927920%09plugin.php%09; Hm_lpvt_6a60b923391636750bd84d6047523609=1583927922',
+    'Cookie': 'pjr5_2132_saltkey=mdYoEQ8v; pjr5_2132_lastvisit=1585044894; pjr5_2132_sid=b6JjJZ; pjr5_2132_lastact=1585048495%09home.php%09misc; Hm_lvt_6a60b923391636750bd84d6047523609=1585048497; Hm_lpvt_6a60b923391636750bd84d6047523609=1585048497',
     'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'none',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
 }
 index_url = "https://www.lesmao.co/"
 base_url = "https://www.lesmao.co/"
@@ -34,7 +37,7 @@ beauty_list = []
 # 根据url获取相应的soup_content
 def get_soup_content(url):
     # 添加代理
-    # proxy = {'http': '113.194.31.123:9999'}
+    # proxy = {'http': '163.204.247.176:9999'}
     # handler = urllib.request.ProxyHandler(proxy)
     # opener = urllib.request.build_opener(handler)
     # urllib.request.install_opener(opener)
@@ -151,7 +154,7 @@ def print_log():
 
 
 def output_file(s):
-    with open(json_file, 'w') as f:
+    with open(json_file, 'w', encoding='utf-8') as f:
         # 清空文本内容
         f.truncate()
         f.write(s)
