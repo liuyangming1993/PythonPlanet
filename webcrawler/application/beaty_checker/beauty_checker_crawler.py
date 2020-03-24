@@ -184,8 +184,8 @@ def build_response():
                     for img_src in img.c_child_list:
                         album_bean['imgList'].append(img_src)
                         # print(img_src + "----------------------------------专辑的子页面上的图片")
-    print(json.dumps(response))
-    output_file(json.dumps(response))
+    print(json.dumps(response, ensure_ascii=False))
+    output_file(json.dumps(response, ensure_ascii=False))
 
 
 if __name__ == "__main__":
@@ -195,4 +195,4 @@ if __name__ == "__main__":
     get_album_list_child_pages()
     get_img_list()
     build_response()
-    # print_log()
+    print_log()
