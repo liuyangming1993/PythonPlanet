@@ -147,10 +147,10 @@ def print_log():
                 print(album_child_page.c_name['album_name'] + album_child_page.c_name['thumbnail'])
                 # 子页面中的专辑首页
                 print(album_child_page.c_name['first_page'] + "----------------------------------子页面上的专辑首页")
-                for img in album_child_page.c_child_list:
-                    print(img.c_name + "----------------------------------专辑的子页面")
-                    for img_src in img.c_child_list:
-                        print(img_src + "----------------------------------专辑的子页面上的图片")
+                # for img in album_child_page.c_child_list:
+                #     print(img.c_name + "----------------------------------专辑的子页面")
+                #     for img_src in img.c_child_list:
+                #         print(img_src + "----------------------------------专辑的子页面上的图片")
 
 
 def output_file(s):
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     get_category_list()
     get_category_list_child_pages()
     get_album_list()
-    get_album_list_child_pages()
-    get_img_list()
-    build_response()
+    # get_album_list_child_pages()
+    # get_img_list()
+    # build_response()
     print_log()
