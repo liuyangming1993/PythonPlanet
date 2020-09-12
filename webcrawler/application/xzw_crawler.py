@@ -10,6 +10,7 @@ import urllib.request
 from utils import re_util
 import datetime
 import webbrowser
+import ssl
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -41,6 +42,7 @@ channel = WECHAT
 
 
 def get_menu():
+    # ssl._create_default_https_context = ssl._create_unverified_context
     # 使用selenium爬取网页
     # chrome_options = Options()
     # chrome_options.add_argument('--headless')
@@ -123,6 +125,8 @@ def get_description(soup_content):
         pass
     div = soup_content.find(name='div', attrs={'class': 'c_cont'})
     zh_label = "综合运势"
+    if zh_label not in str(div):
+        return
     span = div.find(text=zh_label).parent.next_sibling
     child_list = []
     for child in span.children:
@@ -152,6 +156,7 @@ def get_description(soup_content):
 def get_info(key):
     # 获取星座名和日期
     get_name_xz(key)
+    # ssl._create_default_https_context = ssl._create_unverified_context
     req = urllib.request.Request(key + end, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
     time.sleep(1)
@@ -167,7 +172,8 @@ def get_info(key):
 
 # 打开浏览器
 def open_chrome():
-    chrome_path = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    # chrome_path = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    chrome_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe'
     webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
     # 这里的'chrome'可以用其它任意名字，如chrome111，这里将想打开的浏览器保存到'chrome'
     # 头条
