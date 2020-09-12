@@ -10,9 +10,12 @@ import urllib.request
 from utils import re_util
 import datetime
 import webbrowser
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Connection': 'keep-alive',
     'Accept-Language': 'zh-CN,zh;q=0.9',
@@ -34,14 +37,22 @@ end = "/1.html"
 WECHAT = "wechat"
 JIAN_SHU = "jian_shu"
 TOU_TIAO = "tou_tiao"
-channel = JIAN_SHU
+channel = WECHAT
 
 
 def get_menu():
+    # 使用selenium爬取网页
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--disable-gpu')
+    # browser = webdriver.Chrome(options=chrome_options)
+    # browser.get(index_url)
+    # content_str = browser.page_source
     req = urllib.request.Request(index_url, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
     content_str = resp.read()
     content_str = content_str.decode('utf-8')  # 解码
+    # print(content_str)
     soup_content = BeautifulSoup(content_str, 'html.parser')
     div = soup_content.find(name='div', attrs={'class': 'alb'})
     for child in div.children:
@@ -143,6 +154,7 @@ def get_info(key):
     get_name_xz(key)
     req = urllib.request.Request(key + end, headers=headers)
     resp = urllib.request.urlopen(req, timeout=20)
+    time.sleep(1)
     content_str = resp.read()
     content_str = content_str.decode('utf-8', "ignore")  # 解码
     # 使用BeautifulSoup
@@ -159,8 +171,8 @@ def open_chrome():
     webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
     # 这里的'chrome'可以用其它任意名字，如chrome111，这里将想打开的浏览器保存到'chrome'
     # 头条
-    webbrowser.get('chrome').open("https://mp.toutiao.com/profile_v3/index", new=0,
-                                  autoraise=True)
+    # webbrowser.get('chrome').open("https://mp.toutiao.com/profile_v3/index", new=0,
+    #                               autoraise=True)
     if JIAN_SHU == channel:
         # 简书
         webbrowser.get('chrome').open("https://www.jianshu.com/writer#/notebooks/42686948/notes/60255342", new=0,
@@ -176,7 +188,7 @@ def open_chrome():
 
 def print_date():
     # 日期
-    now_date = datetime.datetime.now().strftime('%m-%d')
+    now_date = (datetime.datetime.now()+datetime.timedelta(days=+1)).strftime('%m-%d')
     now = str.split(now_date, "-")
     month = int(now[0])
     day = int(now[1])
@@ -187,11 +199,12 @@ def print_date():
 
 if __name__ == '__main__':
     open_chrome()
-    print("###想获取每日的星座运势，一定要关注我哦~")
     if JIAN_SHU == channel:
+        print("###点击 [阅读原文](00) 并关注公众号，每晚8点准时获取星座运势哦~")
         print(
             "![](https://upload-images.jianshu.io/upload_images/21255456-c177b29de2637a7d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)")
     else:
+        print("###每晚8点，准时获取星座运势，一定要关注我哦~")
         print(
             "![](https://mmbiz.qpic.cn/sz_mmbiz_jpg/DnuRxKrYr5dkYfXVJLUONibqyDCgtt7utepmHHqbebSOafgkrsHQKLt4e5zJDiatXUxagdmS49KbeNKWos8eKbwA/0?wx_fmt=jpeg)")
     get_menu()
